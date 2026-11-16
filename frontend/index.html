@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Himamshu K G - Software Engineer & Full-Stack Developer Portfolio">
+    <meta name="theme-color" content="#0f172a">
+    <title>Himamshu K G | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar container">
+            <a href="#" class="logo" aria-label="Home">Himamshu K G</a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="admin.html" class="btn-admin">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge" id="heroBadge">Software Engineer</div>
+                <h1 class="hero-title">Hi, I'm <span class="gradient-text" id="heroName">Himamshu K G</span></h1>
+                <p class="hero-subtitle" id="heroHeadline">Software Engineer & Full-Stack Developer</p>
+                <p class="hero-bio" id="heroBio">Computer Science student passionate about building practical software solutions, AI-assisted applications, and secure, reliable systems. Interested in backend development, Python, FastAPI, REST APIs, and cybersecurity. Constantly exploring new technologies and strengthening my skills through hands-on projects, problem-solving, and continuous learning.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Get to know me better</p>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Bio</h3>
+                <p id="aboutBio">Computer Science student passionate about building practical software solutions, AI-assisted applications, and secure, reliable systems. Interested in backend development, Python, FastAPI, REST APIs, and cybersecurity. Constantly exploring new technologies and strengthening my skills through hands-on projects, problem-solving, and continuous learning.</p>
+            </div>
+            <div class="about-card">
+                <h3>Education</h3>
+                <p id="aboutEducationDegree">Degree: B.E. in Computer Science & Engineering</p>
+                <p id="aboutEducationInstitution">Institution: University Visvesvaraya College of Engineering (UVCE), Bengaluru</p>
+                <p id="aboutEducationStatus">Status: Currently Pursuing</p>
+                <p id="aboutEducationDuration">Duration: 2026–2030</p>
+            </div>
+            <div class="about-card">
+                <h3>Activities</h3>
+                <p id="aboutActivity1">Cybersecurity & CTF Participant: Participated in a hands-on CTF and cybersecurity programme at RV University, exploring Linux commands, challenge-solving and security fundamentals.</p>
+                <p id="aboutActivity2">Self-Directed Learner: Learning Python, C programming, Linux, APIs, Git/GitHub and AI application development.</p>
+                <p id="aboutActivity3">Technology Enthusiast: Interested in software development, cybersecurity and AI-assisted applications.</p>
+            </div>
+            <div class="about-card">
+                <h3>Location</h3>
+                <p>Bengaluru, India</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="container">
+        <h2 class="section-title">Skills</h2>
+        <p class="section-subtitle">Technologies and tools I work with</p>
+        <div id="skillsContainer">
+            <div class="loading-spinner">Loading skills...</div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="container">
+        <h2 class="section-title">Projects</h2>
+        <p class="section-subtitle">A selection of my recent work</p>
+        <div id="projectsContainer">
+            <div class="loading-spinner">Loading projects...</div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-subtitle">Let's work together</p>
+        <div class="contact-container">
+            <p class="hero-bio" style="text-align: center; margin-bottom: 2rem;">Feel free to reach out for collaborations, freelance work, or just to say hi!</p>
+            <div class="contact-info-list">
+                <a href="mailto:himamshukg@gmail.com" class="contact-item" id="contactEmail">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span>himamshukg@gmail.com</span>
+                </a>
+                <a href="https://github.com/himamshukg" target="_blank" rel="noopener noreferrer" class="contact-item" id="contactGithub">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://linkedin.com/in/himamshukg" target="_blank" rel="noopener noreferrer" class="contact-item" id="contactLinkedin">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                    <span>LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="footerYear"></span> <span id="footerName">Himamshu K G</span>. Built with FastAPI & Vanilla JS.</p>
+        </div>
+    </footer>
+
+    <!-- External Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/portfolio.js"></script>
+    <script>
+        // Set current year in footer
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
