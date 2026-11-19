@@ -13,8 +13,8 @@ from pydantic import BaseModel
 import bcrypt
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from backend directory
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 # Admin credentials from environment
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")

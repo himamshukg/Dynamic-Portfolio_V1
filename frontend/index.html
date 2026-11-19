@@ -3,142 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Himamshu K G - Software Engineer & Full-Stack Developer Portfolio">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Himamshu K G - Computer Science Student & Aspiring Software Developer | Backend Engineering • Cybersecurity • AI Applications">
+    <meta name="theme-color" content="#0a0a1a">
     <title>Himamshu K G | Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/glassmorphism.css">
 </head>
 <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Background Effects -->
+    <div class="bg-gradient-mesh" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
+    <div class="bg-glow-cyan" aria-hidden="true"></div>
+    <!-- Interactive Particle Background -->
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <!-- Interactive Cursor Glow -->
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
     <!-- Header & Navigation -->
-    <header>
-        <nav class="navbar container">
-            <a href="#" class="logo" aria-label="Home">Himamshu K G</a>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
+    <header class="header" role="banner">
+        <nav class="navbar container" aria-label="Main navigation">
+            <a href="#" class="logo" aria-label="Home">
+                <span class="logo-bracket">[</span>
+                <span class="logo-text">HIMAMSHU_K_G</span>
+                <span class="logo-bracket">]</span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
             </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li><a href="admin.html" class="btn-admin">Admin</a></li>
+            <ul class="nav-links" id="navLinks" role="list">
+                <li><a href="#about" class="nav-link" data-section="about">ABOUT</a></li>
+                <li><a href="#skills" class="nav-link" data-section="skills">SKILLS</a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects">PROJECTS</a></li>
+                <li><a href="#education" class="nav-link" data-section="education">EDUCATION</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">CONTACT</a></li>
+                <li><a href="admin.html" class="nav-link admin-link">ADMIN</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge" id="heroBadge">Software Engineer</div>
-                <h1 class="hero-title">Hi, I'm <span class="gradient-text" id="heroName">Himamshu K G</span></h1>
-                <p class="hero-subtitle" id="heroHeadline">Software Engineer & Full-Stack Developer</p>
-                <p class="hero-bio" id="heroBio">Computer Science student passionate about building practical software solutions, AI-assisted applications, and secure, reliable systems. Interested in backend development, Python, FastAPI, REST APIs, and cybersecurity. Constantly exploring new technologies and strengthening my skills through hands-on projects, problem-solving, and continuous learning.</p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="home" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-content">
+                        <div class="hero-panel" role="img" aria-label="Terminal introduction panel">
+                            <div class="hero-panel-header">
+                                <div class="hero-panel-controls">
+                                    <span class="control close" aria-hidden="true"></span>
+                                    <span class="control minimize" aria-hidden="true"></span>
+                                    <span class="control maximize" aria-hidden="true"></span>
+                                </div>
+                                <div class="hero-panel-title">portfolio.exe</div>
+                            </div>
+                            <div class="hero-panel-body">
+                                <div class="hero-panel-line">
+                                    <span class="hero-panel-prompt">$</span>
+                                    <span class="hero-panel-command"> whoami</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output" id="heroName">HIMAMSHU K G</span>
+                                </div>
+                                <div class="hero-panel-line">
+                                    <span class="hero-panel-prompt">$</span>
+                                    <span class="hero-panel-command"> cat profile.txt</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output" id="heroHeadline">Computer Science Student</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output" id="heroSubline">Aspiring Software Developer</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output" id="heroFocus">Backend Engineering • Cybersecurity • AI Applications</span>
+                                </div>
+                                <div class="hero-panel-line">
+                                    <span class="hero-panel-prompt">$</span>
+                                    <span class="hero-panel-command"> echo "Areas of Interest"</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output hero-panel-interest">[*] Software Development</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output hero-panel-interest">[*] REST APIs & Backend Systems</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output hero-panel-interest">[*] Cybersecurity & CTF</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output hero-panel-interest">[*] AI-Assisted Applications</span>
+                                </div>
+                                <div class="hero-panel-line">
+                                    <span class="hero-panel-prompt">$</span>
+                                    <span class="hero-panel-command"> help</span>
+                                </div>
+                                <div class="hero-panel-line output">
+                                    <span class="hero-panel-output hero-panel-help">Available commands: about, skills, projects, contact, clear</span>
+                                </div>
+                                <div class="hero-panel-line">
+                                    <span class="hero-panel-prompt">$</span>
+                                    <span class="hero-panel-command hero-panel-cursor" id="terminalInput" contenteditable="true" data-placeholder="Type a command...">_</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <div class="action-card">
+                            <a href="#projects" class="btn btn-primary">
+                                <span class="btn-text">VIEW PROJECTS</span>
+                                <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                        <div class="action-card">
+                            <a href="#contact" class="btn btn-secondary">
+                                <span class="btn-text">CONTACT ME</span>
+                            </a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="statProjects">3</span>
+                                <span class="stat-label">PROJECTS</span>
+                            </div>
+                            <div class="stat-divider" aria-hidden="true"></div>
+                            <div class="stat">
+                                <span class="stat-value" id="statSkills">7</span>
+                                <span class="stat-label">SKILLS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-indicator" aria-hidden="true">
+                    <span class="scroll-text">SCROLL</span>
+                    <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M19 12l-7 7-7-7"/>
+                    </svg>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section id="about" class="container">
-        <h2 class="section-title">About Me</h2>
-        <p class="section-subtitle">Get to know me better</p>
-        <div class="about-grid">
-            <div class="about-card">
-                <h3>Bio</h3>
-                <p id="aboutBio">Computer Science student passionate about building practical software solutions, AI-assisted applications, and secure, reliable systems. Interested in backend development, Python, FastAPI, REST APIs, and cybersecurity. Constantly exploring new technologies and strengthening my skills through hands-on projects, problem-solving, and continuous learning.</p>
+        <!-- About Section -->
+        <section id="about" class="section" aria-labelledby="about-title">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-tag">01</span>
+                    <h2 class="section-title" id="about-title">ABOUT<span class="gradient-text">.ME</span></h2>
+                    <p class="section-subtitle">SYSTEM INFORMATION</p>
+                </header>
+                <div class="about-grid">
+                    <article class="glass-card glass-card-border reveal" id="aboutBioCard">
+                        <div class="glass-card-content">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">👤</span>
+                                <h3 class="card-title">BIO</h3>
+                            </div>
+                            <div class="card-body">
+                                <p id="aboutBio" class="terminal-text">
+                                    Computer Science student passionate about building practical software solutions, AI-assisted applications, and secure, reliable systems. Interested in backend development, Python, FastAPI, REST APIs, and cybersecurity. Constantly exploring new technologies and strengthening my skills through hands-on projects, problem-solving, and continuous learning.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="glass-card glass-card-border reveal reveal-delay-1" id="aboutEducationCard">
+                        <div class="glass-card-content">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">🎓</span>
+                                <h3 class="card-title">EDUCATION</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">DEGREE:</span>
+                                        <span class="info-value" id="aboutEducationDegree">B.E. Computer Science & Engineering</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">INSTITUTION:</span>
+                                        <span class="info-value" id="aboutEducationInstitution">UVCE, Bengaluru</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">STATUS:</span>
+                                        <span class="info-value" id="aboutEducationStatus">Currently Pursuing</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">DURATION:</span>
+                                        <span class="info-value" id="aboutEducationDuration">2026–2030</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="glass-card glass-card-border reveal reveal-delay-2" id="aboutActivitiesCard">
+                        <div class="glass-card-content">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">⚡</span>
+                                <h3 class="card-title">ACTIVITIES</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="activity-list" id="activityList" role="list">
+                                    <li class="activity-item">
+                                        <span class="activity-bullet" aria-hidden="true">▸</span>
+                                        <span id="aboutActivity1">Cybersecurity & CTF Participant at RV University</span>
+                                    </li>
+                                    <li class="activity-item">
+                                        <span class="activity-bullet" aria-hidden="true">▸</span>
+                                        <span id="aboutActivity2">Self-Directed Learner: Python, C, Linux, APIs, Git/GitHub, AI Development</span>
+                                    </li>
+                                    <li class="activity-item">
+                                        <span class="activity-bullet" aria-hidden="true">▸</span>
+                                        <span id="aboutActivity3">Technology Enthusiast: Software Dev, Cybersecurity, AI Applications</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="glass-card glass-card-border reveal reveal-delay-3" id="aboutLocationCard">
+                        <div class="glass-card-content">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">📍</span>
+                                <h3 class="card-title">LOCATION</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="terminal-text">Bengaluru, India</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
             </div>
-            <div class="about-card">
-                <h3>Education</h3>
-                <p id="aboutEducationDegree">Degree: B.E. in Computer Science & Engineering</p>
-                <p id="aboutEducationInstitution">Institution: University Visvesvaraya College of Engineering (UVCE), Bengaluru</p>
-                <p id="aboutEducationStatus">Status: Currently Pursuing</p>
-                <p id="aboutEducationDuration">Duration: 2026–2030</p>
-            </div>
-            <div class="about-card">
-                <h3>Activities</h3>
-                <p id="aboutActivity1">Cybersecurity & CTF Participant: Participated in a hands-on CTF and cybersecurity programme at RV University, exploring Linux commands, challenge-solving and security fundamentals.</p>
-                <p id="aboutActivity2">Self-Directed Learner: Learning Python, C programming, Linux, APIs, Git/GitHub and AI application development.</p>
-                <p id="aboutActivity3">Technology Enthusiast: Interested in software development, cybersecurity and AI-assisted applications.</p>
-            </div>
-            <div class="about-card">
-                <h3>Location</h3>
-                <p>Bengaluru, India</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="container">
-        <h2 class="section-title">Skills</h2>
-        <p class="section-subtitle">Technologies and tools I work with</p>
-        <div id="skillsContainer">
-            <div class="loading-spinner">Loading skills...</div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="container">
-        <h2 class="section-title">Projects</h2>
-        <p class="section-subtitle">A selection of my recent work</p>
-        <div id="projectsContainer">
-            <div class="loading-spinner">Loading projects...</div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="container">
-        <h2 class="section-title">Contact</h2>
-        <p class="section-subtitle">Let's work together</p>
-        <div class="contact-container">
-            <p class="hero-bio" style="text-align: center; margin-bottom: 2rem;">Feel free to reach out for collaborations, freelance work, or just to say hi!</p>
-            <div class="contact-info-list">
-                <a href="mailto:himamshukg@gmail.com" class="contact-item" id="contactEmail">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <span>himamshukg@gmail.com</span>
-                </a>
-                <a href="https://github.com/himamshukg" target="_blank" rel="noopener noreferrer" class="contact-item" id="contactGithub">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                    <span>GitHub</span>
-                </a>
-                <a href="https://linkedin.com/in/himamshukg" target="_blank" rel="noopener noreferrer" class="contact-item" id="contactLinkedin">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                    <span>LinkedIn</span>
-                </a>
+        <!-- Skills Section -->
+        <section id="skills" class="section" aria-labelledby="skills-title">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-tag">02</span>
+                    <h2 class="section-title" id="skills-title">SKILLS<span class="gradient-text">.MODULE</span></h2>
+                    <p class="section-subtitle">TECHNOLOGY STACK</p>
+                </header>
+                <div id="skillsContainer">
+                    <div class="loading-terminal">
+                        <div class="loading-line">
+                            <span class="hero-panel-prompt">$</span>
+                            <span class="hero-panel-command"> loading skills.db</span>
+                        </div>
+                        <div class="loading-bar">
+                            <div class="loading-progress" id="loadingProgress"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section" aria-labelledby="projects-title">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-tag">03</span>
+                    <h2 class="section-title" id="projects-title">PROJECTS<span class="gradient-text">.ARCHIVE</span></h2>
+                    <p class="section-subtitle">RECENT BUILDS</p>
+                </header>
+                <div id="projectsContainer">
+                    <div class="loading-terminal">
+                        <div class="loading-line">
+                            <span class="hero-panel-prompt">$</span>
+                            <span class="hero-panel-command"> fetching projects.json</span>
+                        </div>
+                        <div class="loading-bar">
+                            <div class="loading-progress" id="projectsLoadingProgress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education & Activities Section -->
+        <section id="education" class="section" aria-labelledby="education-title">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-tag">04</span>
+                    <h2 class="section-title" id="education-title">HISTORY<span class="gradient-text">.LOG</span></h2>
+                    <p class="section-subtitle">EDUCATION & ACTIVITIES TIMELINE</p>
+                </header>
+                <div class="timeline" id="timelineContainer">
+                    <!-- Timeline items will be rendered dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section" aria-labelledby="contact-title">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-tag">05</span>
+                    <h2 class="section-title" id="contact-title">CONNECT<span class="gradient-text">.INTERFACE</span></h2>
+                    <p class="section-subtitle">ESTABLISH CONNECTION</p>
+                </header>
+                <div class="contact-grid">
+                    <div class="glass-card glass-card-border contact-card reveal">
+                        <div class="glass-card-content card-body">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">📧</span>
+                                <h3 class="card-title">EMAIL</h3>
+                            </div>
+                            <a href="mailto:himamshukg@gmail.com" class="contact-link" id="contactEmail">
+                                <span class="contact-value">himamshukg@gmail.com</span>
+                                <span class="contact-action" aria-hidden="true">[ COPY ]</span>
+                            </a>
+                            <p class="contact-hint">Click to copy email address</p>
+                        </div>
+                    </div>
+                    <div class="glass-card glass-card-border contact-card reveal reveal-delay-1">
+                        <div class="glass-card-content card-body">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">💻</span>
+                                <h3 class="card-title">GITHUB</h3>
+                            </div>
+                            <a href="https://github.com/himamshukg" target="_blank" rel="noopener noreferrer" class="contact-link" id="contactGithub">
+                                <span class="contact-value">github.com/himamshukg</span>
+                                <span class="contact-action" aria-hidden="true">[ OPEN ]</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="glass-card glass-card-border contact-card reveal reveal-delay-2">
+                        <div class="glass-card-content card-body">
+                            <div class="card-header">
+                                <span class="card-icon" aria-hidden="true">🔗</span>
+                                <h3 class="card-title">LINKEDIN</h3>
+                            </div>
+                            <a href="https://linkedin.com/in/himamshukg" target="_blank" rel="noopener noreferrer" class="contact-link" id="contactLinkedin">
+                                <span class="contact-value">linkedin.com/in/himamshukg</span>
+                                <span class="contact-action" aria-hidden="true">[ OPEN ]</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-footer">
+                    <p class="terminal-text">Open to collaborations, freelance opportunities, and interesting projects.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer" role="contentinfo">
         <div class="container">
-            <p>&copy; <span id="footerYear"></span> <span id="footerName">Himamshu K G</span>. Built with FastAPI & Vanilla JS.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-bracket">[</span>
+                    <span class="logo-text">HIMAMSHU_K_G</span>
+                    <span class="logo-bracket">]</span>
+                    <p class="footer-tagline">Computer Science Student • Backend Developer • Cybersecurity Enthusiast</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#about" class="footer-link">ABOUT</a>
+                    <a href="#skills" class="footer-link">SKILLS</a>
+                    <a href="#projects" class="footer-link">PROJECTS</a>
+                    <a href="#education" class="footer-link">EDUCATION</a>
+                    <a href="#contact" class="footer-link">CONTACT</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; <span id="footerYear"></span> <span id="footerName">Himamshu K G</span>. Built with FastAPI & Vanilla JS.</p>
+                <p class="footer-note">v1.0.0 • Deployed on <span id="deployDate"></span></p>
+            </div>
         </div>
     </footer>
 
-    <!-- External Scripts -->
+    <!-- Toast Notification for Copy -->
+    <div class="toast" id="toast" role="alert" aria-live="polite" hidden>
+        <span class="toast-icon" aria-hidden="true">✓</span>
+        <span class="toast-message" id="toastMessage">Copied to clipboard</span>
+    </div>
+
+    <!-- Scripts -->
     <script src="js/config.js"></script>
     <script src="js/portfolio.js"></script>
+    <script src="js/particles.js"></script>
     <script>
-        // Set current year in footer
         document.getElementById('footerYear').textContent = new Date().getFullYear();
+        document.getElementById('deployDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
     </script>
 </body>
 </html>

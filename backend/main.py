@@ -11,11 +11,11 @@ API docs: http://localhost:8000/docs
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from data import store
-from routes.projects import router as projects_router
-from routes.skills import router as skills_router
-from routes.profile import router as profile_router
-from auth import router as auth_router
+from .data import store
+from .routes.projects import router as projects_router
+from .routes.skills import router as skills_router
+from .routes.profile import router as profile_router
+from .auth import router as auth_router
 
 app = FastAPI(
     title="Dynamic Portfolio API",
@@ -27,7 +27,7 @@ app = FastAPI(
 # credentials=True allows cookies to be sent cross-origin
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:3000", "http://localhost:3000", "http://127.0.0.1:8000", "http://localhost:8000"],
+    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:3000", "http://localhost:3000", "http://127.0.0.1:8000", "http://localhost:8000", "http://127.0.0.1:8081", "http://localhost:8081"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

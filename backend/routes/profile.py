@@ -5,8 +5,8 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, field_validator
 
-from data import store
-from auth import require_auth
+from ..data import store
+from ..auth import require_auth
 
 
 class ProfileUpdate(BaseModel):

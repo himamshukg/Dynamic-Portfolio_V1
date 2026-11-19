@@ -6,7 +6,7 @@ Data is loaded from / saved to a JSON file via storage.py.
 
 from typing import List, Dict, Optional
 
-from storage import load_data, save_data
+from .storage import load_data, save_data
 
 
 # ---------------------------------------------------------------------------
