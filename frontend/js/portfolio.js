@@ -11,11 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     initSmoothScroll();
     initCopyEmail();
     initScrollProgress();
+    initScrollIndicator();
     initCursorGlow();
     initTerminal();
     initFlipCards();
     initProjectCardInteractions();
     initMicroInteractions();
+    initProjectExplorer();
     fetchProfile();
     fetchSkills();
     fetchProjects();
@@ -529,6 +531,290 @@ function getSkillIcon(skillName, category) {
 }
 
 /**
+ * Project Explorer - Filtering, Search, and Interactive Controls
+ */
+let allProjects = []; // Store all projects for filtering
+let currentFilter = "all"; // Current category filter
+let currentSearch = ""; // Current search query
+let filterButtons = null; // Cache for filter button elements
+
+function initProjectExplorer() {
+    const searchInput = document.getElementById("projectSearch");
+    const searchClear = document.getElementById("searchClear");
+    const filterContainer = document.getElementById("projectFilters");
+    const noResults = document.getElementById("noResults");
+
+    if (!searchInput || !filterContainer) return;
+
+    // Search input handler with debounce
+    let searchDebounceTimer = null;
+    searchInput.addEventListener("input", (e) => {
+        currentSearch = e.target.value.trim().toLowerCase();
+        searchClear.hidden = !currentSearch;
+
+        // Debounce search
+        if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+            filterProjects();
+        }, 150);
+    });
+
+    // Clear search button
+    searchClear.addEventListener("click", () => {
+        searchInput.value = "";
+        currentSearch = "";
+        searchClear.hidden = true;
+        searchInput.focus();
+        filterProjects();
+    });
+
+    // Keyboard: Escape to clear search
+    searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && currentSearch) {
+            searchInput.value = "";
+            currentSearch = "";
+            searchClear.hidden = true;
+            searchInput.blur();
+            filterProjects();
+        }
+    });
+
+    // Initialize filter buttons container
+    filterButtons = filterContainer;
+
+    // Expose filter function globally for potential external use
+    window.filterProjects = filterProjects;
+}
+
+/**
+ * Extract unique technology categories from projects
+ */
+function extractCategories(projects) {
+    const categories = new Set();
+
+    projects.forEach(proj => {
+        if (proj.technologies) {
+            const techs = proj.technologies.split(",").map(t => t.trim().toLowerCase());
+            techs.forEach(tech => {
+                // Normalize common technology names to categories
+                const normalized = normalizeTechCategory(tech);
+                if (normalized) categories.add(normalized);
+            });
+        }
+    });
+
+    // Sort alphabetically but keep "All" first
+    const sorted = Array.from(categories).sort((a, b) => a.localeCompare(b));
+    return ["all", ...sorted];
+}
+
+/**
+ * Normalize technology names to broader categories
+ */
+function normalizeTechCategory(tech) {
+    const lower = tech.toLowerCase();
+
+    // Frontend technologies
+    if (["html", "html5", "css", "css3", "javascript", "js", "typescript", "ts", "react", "vue", "svelte", "angular", "tailwind", "sass", "scss"].includes(lower)) {
+        return "Frontend";
+    }
+
+    // Backend technologies
+    if (["python", "fastapi", "django", "flask", "node", "express", "java", "spring", "go", "golang", "rust", "c#", ".net", "php", "laravel"].includes(lower)) {
+        return "Backend";
+    }
+
+    // Database technologies
+    if (["sql", "sqlite", "postgresql", "mysql", "mongodb", "redis", "prisma", "drizzle", "orm"].includes(lower)) {
+        return "Database";
+    }
+
+    // Tools & DevOps
+    if (["git", "github", "docker", "kubernetes", "aws", "gcp", "azure", "ci/cd", "jenkins", "vercel", "netlify", "nginx", "linux", "bash"].includes(lower)) {
+        return "Tools";
+    }
+
+    // API/Integration
+    if (["rest", "api", "graphql", "grpc", "websocket", "openapi", "swagger"].includes(lower)) {
+        return "API";
+    }
+
+    // UI/Design
+    if (["figma", "design", "ui", "ux", "framer", "motion"].includes(lower)) {
+        return "Design";
+    }
+
+    // Testing
+    if (["jest", "vitest", "cypress", "playwright", "testing", "pytest", "unit test"].includes(lower)) {
+        return "Testing";
+    }
+
+    // If it's a recognizable tech but doesn't match categories, return capitalized
+    if (tech.length > 1) {
+        return tech.charAt(0).toUpperCase() + tech.slice(1);
+    }
+
+    return null;
+}
+
+/**
+ * Check if a project matches the current filter and search
+ */
+function projectMatches(project) {
+    // Category filter
+    if (currentFilter !== "all") {
+        const techs = project.technologies
+            ? project.technologies.split(",").map(t => t.trim().toLowerCase())
+            : [];
+        const projectCategories = techs.map(normalizeTechCategory).filter(Boolean);
+        if (!projectCategories.includes(currentFilter)) {
+            return false;
+        }
+    }
+
+    // Search query
+    if (currentSearch) {
+        const searchableText = [
+            project.title,
+            project.description,
+            project.technologies
+        ].join(" ").toLowerCase();
+
+        if (!searchableText.includes(currentSearch)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Filter and render projects based on current filter and search
+ */
+function filterProjects() {
+    const container = document.getElementById("projectsContainer");
+    const noResults = document.getElementById("noResults");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!container) return;
+
+    const filtered = allProjects.filter(projectMatches);
+    const projectsGrid = container.querySelector(".projects-grid");
+
+    if (!projectsGrid) return;
+
+    // Get all project flip cards
+    const cards = Array.from(projectsGrid.querySelectorAll(".project-flip-card"));
+
+    // Create a map for quick lookup
+    const cardMap = new Map();
+    cards.forEach(card => {
+        const title = card.dataset.project;
+        if (title) cardMap.set(title, card);
+    });
+
+    // Hide non-matching cards with animation
+    cards.forEach(card => {
+        const title = card.dataset.project;
+        const isMatch = filtered.some(p => p.title === title);
+
+        if (isMatch) {
+            // Show matching card
+            card.classList.remove("filter-hidden");
+            card.style.display = "";
+
+            // Stagger animation
+            setTimeout(() => {
+                card.style.opacity = "1";
+                card.style.transform = "scale(1)";
+                card.style.visibility = "visible";
+            }, prefersReducedMotion ? 0 : 50);
+        } else {
+            // Hide non-matching card
+            card.style.opacity = "0";
+            card.style.transform = "scale(0.95)";
+
+            setTimeout(() => {
+                card.classList.add("filter-hidden");
+                card.style.visibility = "hidden";
+            }, prefersReducedMotion ? 0 : 300);
+        }
+    });
+
+    // Show/hide no results message
+    if (filtered.length === 0 && allProjects.length > 0) {
+        noResults.hidden = false;
+        if (!prefersReducedMotion) {
+            noResults.style.opacity = "0";
+            noResults.style.transform = "translateY(10px)";
+            noResults.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            requestAnimationFrame(() => {
+                noResults.style.opacity = "1";
+                noResults.style.transform = "translateY(0)";
+            });
+        }
+    } else {
+        noResults.hidden = true;
+        noResults.style.opacity = "";
+        noResults.style.transform = "";
+    }
+
+    // Update active filter button
+    updateActiveFilterButton();
+}
+
+/**
+ * Update active state on filter buttons
+ */
+function updateActiveFilterButton() {
+    if (!filterButtons) return;
+
+    const buttons = filterButtons.querySelectorAll(".filter-btn");
+    buttons.forEach(btn => {
+        const isActive = btn.dataset.filter === currentFilter;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-pressed", isActive);
+    });
+}
+
+/**
+ * Render filter buttons based on project categories
+ */
+function renderFilterButtons(projects) {
+    const filterContainer = document.getElementById("projectFilters");
+    if (!filterContainer) return;
+
+    const categories = extractCategories(projects);
+
+    filterContainer.innerHTML = categories.map((cat, index) => `
+        <button
+            type="button"
+            class="filter-btn ${cat === "all" ? "active" : ""}"
+            data-filter="${escapeHtml(cat)}"
+            aria-pressed="${cat === "all"}"
+            style="animation-delay: ${index * 50}ms"
+        >
+            ${escapeHtml(cat === "all" ? "All Projects" : cat)}
+        </button>
+    `).join("");
+
+    // Add click handlers
+    filterContainer.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            currentFilter = btn.dataset.filter;
+            filterProjects();
+
+            // Close dropdown on mobile after selection
+            if (window.innerWidth < 768) {
+                filterContainer.classList.remove("expanded");
+            }
+        });
+    });
+
+    filterButtons = filterContainer;
+}
+
+/**
  * Fetch and Render Projects as Flip Cards
  */
 async function fetchProjects() {
@@ -600,7 +886,6 @@ async function fetchProjects() {
                                 ${isUnderDevelopment ? '<span class="project-status">Under Development</span>' : ''}
                             </div>
                             <p class="project-desc">${escapeHtml(proj.description)}</p>
-                            <div class="project-tech">${techHtml}</div>
                             <div class="flip-hint" aria-hidden="true">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M17 18a5 5 0 0 0-10 0"></path>
@@ -635,6 +920,12 @@ async function fetchProjects() {
 
         html += '</div>';
         container.innerHTML = html;
+
+        // Store all projects for filtering
+        allProjects = projects;
+
+        // Render filter buttons based on project technologies
+        renderFilterButtons(projects);
 
         // Update hero stats
         const statProjects = document.getElementById("statProjects");
@@ -694,6 +985,24 @@ function getProjectDetails(project) {
                 "City search with validation",
                 "Cached responses for performance"
             ]
+        },
+        "bankism-firewall": {
+            features: [
+                "Production-grade AI Firewall for financial LLM agents",
+                "Protection against prompt injection and jailbreaks",
+                "Safeguards autonomous banking workflows",
+                "React 18 frontend with TypeScript/Vite",
+                "Python FastAPI backend security layer"
+            ]
+        },
+        "SentinelFlow": {
+            features: [
+                "AI Agent Security Gateway with policy engine",
+                "ALLOW, BLOCK, or REQUIRE_APPROVAL decisions",
+                "Deterministic policy execution for tool calls",
+                "HTTP API that never trusts client decisions",
+                "React frontend with Python/FastAPI/TypeScript stack"
+            ]
         }
     };
 
@@ -744,9 +1053,11 @@ async function fetchTimeline() {
         const activities = profile.activities || "";
         const actLines = activities.split("\n\n").map(line => line.trim()).filter(line => line);
         actLines.forEach((activity, index) => {
+            // Extract meaningful title from activity description
+            const title = extractActivityTitle(activity, index);
             timelineItems.push({
                 period: "Ongoing",
-                title: `Activity ${index + 1}`,
+                title: title,
                 detail: activity
             });
         });
@@ -809,6 +1120,25 @@ async function fetchTimeline() {
 }
 
 /**
+ * Extract meaningful title from activity description
+ */
+function extractActivityTitle(activity, index) {
+    const lower = activity.toLowerCase();
+    if (lower.includes('cybersecurity') || lower.includes('ctf')) {
+        return 'Cybersecurity & CTF';
+    }
+    if (lower.includes('self-directed') || lower.includes('python') || lower.includes('linux') || lower.includes('api') || lower.includes('git')) {
+        return 'Self-Directed Learning';
+    }
+    if (lower.includes('technology enthusiast') || lower.includes('software dev') || lower.includes('cybersecurity') || lower.includes('ai application')) {
+        return 'Technology Enthusiast';
+    }
+    // Fallback: use first few words
+    const words = activity.split(' ').slice(0, 5).join(' ');
+    return words.length > 30 ? words.substring(0, 30) + '...' : words;
+}
+
+/**
  * Utility: Escape HTML
  */
 function escapeHtml(str) {
@@ -837,6 +1167,76 @@ function initScrollProgress() {
     window.addEventListener("scroll", updateProgress, { passive: true });
     // Initial update
     updateProgress();
+}
+
+/**
+ * Scroll Indicator Click Handler
+ */
+function initScrollIndicator() {
+    const scrollIndicator = document.querySelector(".scroll-indicator");
+    if (!scrollIndicator) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Track visibility state
+    let isVisible = true;
+
+    // Threshold: hide when scrolled past the hero section
+    const getHeroBottom = () => {
+        const heroSection = document.getElementById("home");
+        if (heroSection) {
+            const rect = heroSection.getBoundingClientRect();
+            return rect.height;
+        }
+        return window.innerHeight;
+    };
+
+    // Toggle visibility
+    const toggleVisibility = () => {
+        const heroBottom = getHeroBottom();
+        const shouldBeVisible = window.scrollY < heroBottom;
+
+        if (shouldBeVisible !== isVisible) {
+            isVisible = shouldBeVisible;
+            if (isVisible) {
+                scrollIndicator.classList.add("visible");
+                scrollIndicator.style.opacity = "1";
+                scrollIndicator.style.visibility = "visible";
+            } else {
+                scrollIndicator.classList.remove("visible");
+                scrollIndicator.style.opacity = "0";
+                scrollIndicator.style.visibility = "hidden";
+            }
+        }
+    };
+
+    // Click handler
+    scrollIndicator.addEventListener("click", (e) => {
+        const aboutSection = document.getElementById("about");
+        if (aboutSection) {
+            const headerHeight = document.querySelector(".header")?.offsetHeight || 72;
+            const targetPosition = aboutSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: prefersReducedMotion ? "auto" : "smooth"
+            });
+
+            // Update URL
+            history.pushState(null, "", "#about");
+        }
+    });
+
+    // Scroll handler to toggle visibility
+    const handleScroll = () => {
+        toggleVisibility();
+    };
+
+    // Use passive listener for performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Initial visibility check
+    toggleVisibility();
 }
 
 /**
@@ -1065,51 +1465,60 @@ function initTerminal() {
 function initFlipCards() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Handle flip card clicks
+    // Track touch state for mobile
+    let isTouching = false;
+    let touchTimestamp = 0;
+
+    // Handle flip card clicks - works for both mouse and touch
     document.addEventListener("click", (e) => {
         const flipCard = e.target.closest(".flip-card");
         if (!flipCard) return;
 
-        // Don't flip if clicking on links inside the card
-        if (e.target.closest("a")) return;
+        // Don't flip if clicking on links or buttons inside the card
+        if (e.target.closest("a") || e.target.closest("button")) return;
+
+        // Prevent double-triggering from touch events
+        if (isTouching && Date.now() - touchTimestamp < 300) {
+            isTouching = false;
+            return;
+        }
 
         flipCard.classList.toggle("flipped");
 
         // Announce for accessibility
         const isFlipped = flipCard.classList.contains("flipped");
         flipCard.setAttribute("aria-label", isFlipped ? "Card flipped, showing details" : "Card showing front, click to flip");
+    });
+
+    // Touch start - set flag and timestamp
+    document.addEventListener("touchstart", (e) => {
+        const flipCard = e.target.closest(".flip-card");
+        if (flipCard && !e.target.closest("a") && !e.target.closest("button")) {
+            isTouching = true;
+            touchTimestamp = Date.now();
+        }
     }, { passive: true });
 
-    // Keyboard support for flip cards
-    document.addEventListener("keydown", (e) => {
+    // Touch end - handle flip if it was a tap
+    document.addEventListener("touchend", (e) => {
+        // Prevent default for flip cards to avoid scroll interference
         const flipCard = e.target.closest(".flip-card");
-        if (!flipCard) return;
-
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            flipCard.classList.toggle("flipped");
+        if (flipCard && !e.target.closest("a") && !e.target.closest("button")) {
+            if (isTouching && Date.now() - touchTimestamp < 300) {
+                isTouching = false;
+                // Flip will be handled by click event
+            } else {
+                isTouching = false;
+            }
+        } else {
+            isTouching = false;
         }
     });
 
-    // Touch support for mobile - tap to flip
-    let touchStartTime = 0;
-    document.addEventListener("touchstart", (e) => {
-        const flipCard = e.target.closest(".flip-card");
-        if (flipCard) {
-            touchStartTime = Date.now();
-        }
-    }, { passive: true });
-
-    document.addEventListener("touchend", (e) => {
-        const flipCard = e.target.closest(".flip-card");
-        if (flipCard && !e.target.closest("a")) {
-            const touchDuration = Date.now() - touchStartTime;
-            // Only flip on tap (not scroll)
-            if (touchDuration < 300) {
-                flipCard.classList.toggle("flipped");
-            }
-        }
-    }, { passive: true });
+    // Touch cancel - reset flag
+    document.addEventListener("touchcancel", () => {
+        isTouching = false;
+    });
 
     // Hover effect for desktop
     if (!prefersReducedMotion) {

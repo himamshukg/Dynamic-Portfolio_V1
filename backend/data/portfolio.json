@@ -1,7 +1,7 @@
 {
   "profile": {
     "name": "Himamshu K G",
-    "headline": "Software Engineer & Full-Stack Developer",
+    "headline": "Computer Science Student | Aspiring Software Engineer",
     "location": "Bengaluru, India",
     "bio": "Computer Science student passionate about building practical software solutions, AI-assisted applications, and secure, reliable systems. Interested in backend development, Python, FastAPI, REST APIs, and cybersecurity. Constantly exploring new technologies and strengthening my skills through hands-on projects, problem-solving, and continuous learning.",
     "email": "himamshukg@gmail.com",
@@ -33,6 +33,22 @@
       "description": "A Python command-line weather application that uses the OpenWeather API to fetch and display weather information for different cities.",
       "technologies": "Python, File Handling, Lists, Dictionaries, Functions, Exception Handling.",
       "github_url": "https://github.com/himamshukg/weather-app",
+      "live_url": ""
+    },
+    {
+      "id": 4,
+      "title": "bankism-firewall",
+      "description": "Bankism is a lightweight Blue-Team AI Firewall built for the PromptWars Hackathon. It safeguards financial Large Language Model (LLM) agents, chat-to-pay copilots, and autonomous banking workflows against prompt injection, jailbreaks, malicious payment memos, obfuscation, and unauthorized parameter manipulation.",
+      "technologies": "TypeScript, Vite, React, Python, FastAPI",
+      "github_url": "https://github.com/himamshukg/bankism-ai-firewall",
+      "live_url": ""
+    },
+    {
+      "id": 5,
+      "title": "SentinelFlow",
+      "description": "An AI Agent Security Gateway. Agents may propose tool calls. A deterministic policy engine in the backend decides ALLOW, BLOCK, or REQUIRE_APPROVAL. Mock tools run only after ALLOW. The HTTP API never trusts a client-supplied decision.",
+      "technologies": "TypeScript, Vite, React, Python, FastAPI, SQLite",
+      "github_url": "https://github.com/himamshukg/SentinelFlow",
       "live_url": ""
     }
   ],

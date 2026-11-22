@@ -56,8 +56,9 @@
         <section class="hero-section" id="home" aria-labelledby="hero-title">
             <div class="container">
                 <div class="hero-grid">
-                    <div class="hero-content">
-                        <div class="hero-panel" role="img" aria-label="Terminal introduction panel">
+                    <div class="hero-main">
+                        <div class="hero-content">
+                            <div class="hero-panel" role="img" aria-label="Terminal introduction panel">
                             <div class="hero-panel-header">
                                 <div class="hero-panel-controls">
                                     <span class="control close" aria-hidden="true"></span>
@@ -79,7 +80,7 @@
                                     <span class="hero-panel-command"> cat profile.txt</span>
                                 </div>
                                 <div class="hero-panel-line output">
-                                    <span class="hero-panel-output" id="heroHeadline">Computer Science Student</span>
+                                    <span class="hero-panel-output" id="heroHeadline">Computer Science Student | Aspiring Software Engineer</span>
                                 </div>
                                 <div class="hero-panel-line output">
                                     <span class="hero-panel-output" id="heroSubline">Aspiring Software Developer</span>
@@ -116,38 +117,58 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        <div class="hero-actions">
+                            <div class="action-card">
+                                <a href="#projects" class="btn btn-primary">
+                                    <span class="btn-text">VIEW PROJECTS</span>
+                                    <span class="btn-arrow" aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                            <div class="action-card">
+                                <a href="#contact" class="btn btn-secondary">
+                                    <span class="btn-text">CONTACT ME</span>
+                                </a>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat">
+                                    <span class="stat-value" id="statProjects">5</span>
+                                    <span class="stat-label">PROJECTS</span>
+                                </div>
+                                <div class="stat-divider" aria-hidden="true"></div>
+                                <div class="stat">
+                                    <span class="stat-value" id="statSkills">7</span>
+                                    <span class="stat-label">SKILLS</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hero-actions">
-                        <div class="action-card">
-                            <a href="#projects" class="btn btn-primary">
-                                <span class="btn-text">VIEW PROJECTS</span>
-                                <span class="btn-arrow" aria-hidden="true">→</span>
-                            </a>
+                    <!-- Profile Portrait -->
+                    <div class="hero-portrait" aria-hidden="true">
+                        <div class="portrait-frame">
+                            <img src="assets/profile.jpg.jpeg" alt="Himamshu K G" class="portrait-image" loading="lazy">
+                            <div class="portrait-glow"></div>
                         </div>
-                        <div class="action-card">
-                            <a href="#contact" class="btn btn-secondary">
-                                <span class="btn-text">CONTACT ME</span>
+                        <p class="portrait-caption">COMPUTER SCIENCE STUDENT</p>
+                        <div class="social-links" id="socialLinks">
+                            <a href="https://github.com/himamshukg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                             </a>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat">
-                                <span class="stat-value" id="statProjects">3</span>
-                                <span class="stat-label">PROJECTS</span>
-                            </div>
-                            <div class="stat-divider" aria-hidden="true"></div>
-                            <div class="stat">
-                                <span class="stat-value" id="statSkills">7</span>
-                                <span class="stat-label">SKILLS</span>
-                            </div>
+                            <a href="https://linkedin.com/in/himamshukg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </a>
+                            <a href="mailto:himamshukg@gmail.com" class="social-link" aria-label="Email Me">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c2.2 0 4 1.8 4 4v12c0 2.2-1.8 4-4 4H4c-2.2 0-4-1.8-4-4V4c0-2.2 1.8-4 4-4z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="scroll-indicator" aria-hidden="true">
-                    <span class="scroll-text">SCROLL</span>
-                    <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 5v14M19 12l-7 7-7-7"/>
-                    </svg>
-                </div>
+            </div>
+            <div class="scroll-indicator" title="Scroll to About section">
+                <span class="scroll-text">SCROLL</span>
+                <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M19 12l-7 7-7-7"/>
+                </svg>
             </div>
         </section>
 
@@ -270,6 +291,28 @@
                     <h2 class="section-title" id="projects-title">PROJECTS<span class="gradient-text">.ARCHIVE</span></h2>
                     <p class="section-subtitle">RECENT BUILDS</p>
                 </header>
+
+                <!-- Project Explorer Controls -->
+                <div class="project-explorer-controls" aria-label="Project filtering and search">
+                    <div class="project-search">
+                        <label for="projectSearch" class="visually-hidden">Search projects</label>
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="M21 21l-4.35-4.35"></path>
+                        </svg>
+                        <input type="search" id="projectSearch" class="search-input" placeholder="Search projects..." aria-label="Search projects by title, description, or technology" autocomplete="off">
+                        <button type="button" class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="project-filters" id="projectFilters" role="group" aria-label="Filter projects by technology">
+                        <!-- Filter buttons will be injected here -->
+                    </div>
+                </div>
+
                 <div id="projectsContainer">
                     <div class="loading-terminal">
                         <div class="loading-line">
@@ -281,6 +324,8 @@
                         </div>
                     </div>
                 </div>
+
+                <p class="no-results" id="noResults" hidden>No projects match your search or filter.</p>
             </div>
         </section>
 
