@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/admin.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "destination": "/",
+      "permanent": false
+    }
+  ]
+}
