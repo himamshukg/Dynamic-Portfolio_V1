@@ -1,8 +1,32 @@
 /**
  * portfolio.js
  * Cybersecurity/Terminal-Inspired Portfolio Logic
- * Fetches data from FastAPI backend and renders dynamically
+ * Loads data from static JSON file and renders dynamically
  */
+
+// Cached portfolio data promise to avoid multiple fetches
+let portfolioDataPromise = null;
+
+/**
+ * Load portfolio data from static JSON file
+ * Returns a cached Promise if already loading/fetch completed
+ */
+function loadPortfolioData() {
+    if (!portfolioDataPromise) {
+        portfolioDataPromise = fetch('data/portfolio.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load portfolio data (Status: ${response.status})`);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error("Error loading portfolio data:", error);
+                throw error;
+            });
+    }
+    return portfolioDataPromise;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     initNavbar();
@@ -283,12 +307,8 @@ async function fetchProfile() {
     };
 
     try {
-        const response = await fetch(`${CONFIG.API_BASE_URL}/api/profile`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch profile (Status: ${response.status})`);
-        }
-
-        const data = await response.json();
+        const portfolioData = await loadPortfolioData();
+        const data = portfolioData.profile;
 
         // Hero section
         if (elements.heroName) elements.heroName.textContent = data.name || "HIMAMSHU K G";
@@ -344,9 +364,9 @@ async function fetchProfile() {
         }
 
     } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.error("Error loading profile data:", error);
         if (elements.aboutBio) {
-            elements.aboutBio.innerHTML = `<span class="error-message">Unable to load profile data. Please ensure the backend is running.</span>`;
+            elements.aboutBio.innerHTML = `<span class="error-message">Unable to load profile data. Please try refreshing the page.</span>`;
         }
     }
 }
@@ -359,12 +379,8 @@ async function fetchSkills() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${CONFIG.API_BASE_URL}/api/skills`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch skills (Status: ${response.status})`);
-        }
-
-        const skills = await response.json();
+        const portfolioData = await loadPortfolioData();
+        const skills = portfolioData.skills;
 
         if (!skills || skills.length === 0) {
             container.innerHTML = `<p class="section-subtitle">No skills available at the moment.</p>`;
@@ -467,8 +483,8 @@ async function fetchSkills() {
         });
 
     } catch (error) {
-        console.error("Error fetching skills:", error);
-        container.innerHTML = `<div class="error-message">Unable to load skills from server.</div>`;
+        console.error("Error loading skills data:", error);
+        container.innerHTML = `<div class="error-message">Unable to load skills data.</div>`;
     }
 }
 
@@ -822,12 +838,8 @@ async function fetchProjects() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${CONFIG.API_BASE_URL}/api/projects`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch projects (Status: ${response.status})`);
-        }
-
-        const projects = await response.json();
+        const portfolioData = await loadPortfolioData();
+        const projects = portfolioData.projects;
 
         if (!projects || projects.length === 0) {
             container.innerHTML = `<p class="section-subtitle">No projects available at the moment.</p>`;
@@ -948,8 +960,8 @@ async function fetchProjects() {
         });
 
     } catch (error) {
-        console.error("Error fetching projects:", error);
-        container.innerHTML = `<div class="error-message">Unable to load projects from server.</div>`;
+        console.error("Error loading projects data:", error);
+        container.innerHTML = `<div class="error-message">Unable to load projects data.</div>`;
     }
 }
 
@@ -1024,16 +1036,9 @@ async function fetchTimeline() {
     if (!container) return;
 
     try {
-        const [profileRes, skillsRes] = await Promise.all([
-            fetch(`${CONFIG.API_BASE_URL}/api/profile`),
-            fetch(`${CONFIG.API_BASE_URL}/api/skills`)
-        ]);
-
-        if (!profileRes.ok) throw new Error("Failed to fetch profile");
-        if (!skillsRes.ok) throw new Error("Failed to fetch skills");
-
-        const profile = await profileRes.json();
-        const skills = await skillsRes.json();
+        const portfolioData = await loadPortfolioData();
+        const profile = portfolioData.profile;
+        const skills = portfolioData.skills;
 
         // Build timeline items
         const timelineItems = [];
@@ -1114,7 +1119,7 @@ async function fetchTimeline() {
         });
 
     } catch (error) {
-        console.error("Error fetching timeline:", error);
+        console.error("Error loading timeline data:", error);
         container.innerHTML = `<div class="error-message">Unable to load timeline data.</div>`;
     }
 }
